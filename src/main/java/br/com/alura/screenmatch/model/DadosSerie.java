@@ -7,6 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public record DadosSerie (
         @JsonAlias("Title") String titulo, //JsonAlias irá buscar na API exatamente o Title e irá incluir no titulo
         @JsonAlias("totalSeasons") Integer totalTemporadas,
-        @JsonAlias("imdRating") String avaliacao) {
+        @JsonAlias("imdbRating") String avaliacao) {
 
 }
