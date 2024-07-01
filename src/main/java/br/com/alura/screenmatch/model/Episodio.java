@@ -1,14 +1,26 @@
 package br.com.alura.screenmatch.model;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.ManyToAny;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+@Entity // Indica que é uma tabela no banco de dados
+@Table(name = "episodios")// Usado para expecificar que o nome da tabela se não por padrão será o nome da classe
+
 public class Episodio {
+
+    @Id // Indica que é a chave primaria do banco
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY, que é o auto-incremental. Então, se temos um valor inteiro, ele gerará a sequência;
+    private Long id;
     private Integer temporada;
     private String titulo;
     private Integer numeroEpisodio;
     private Double avaliacao;
     private LocalDate dataLancamento;
+    @ManyToOne// Indica que é Muitos para um
+    private Serie serie;
 
     public Episodio(Integer numeroEpisodio, DadosEpisodio dadosEpisodio) {
         this.temporada = numeroEpisodio;
@@ -26,6 +38,22 @@ public class Episodio {
         } catch (DateTimeParseException e) {
             this.dataLancamento = null;
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
     }
 
     public Integer getTemporada() {

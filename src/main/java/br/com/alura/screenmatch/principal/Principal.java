@@ -96,9 +96,11 @@ public class Principal {
 
     private void listarSeriesBuscadas() {
         List<Serie> series = new ArrayList<>();
-        series = dadosSeries.stream()
-                        .map(d -> new Serie(d))
-                                .collect(Collectors.toList());
+//        series = dadosSeries.stream()
+//                        .map(d -> new Serie(d))
+//                                .collect(Collectors.toList());
+
+        series = repository.findAll(); // buscar todas as informações no banco de dados
 
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))

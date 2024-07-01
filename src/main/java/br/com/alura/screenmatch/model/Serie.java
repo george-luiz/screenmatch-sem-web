@@ -24,8 +24,11 @@ public class Serie {
     private String poster;
     private String sinopse;
 
-    @Transient // Indica para não salvar no banco de dados
+//    @Transient // Indica para não salvar no banco de dados
+    @OneToMany(mappedBy = "serie") // Indica que é Um para muitos na tabela, mappedBy: indicando o a referencia do outro mapeamento: ManyToAny na outra classe
     List<Episodio> episodios = new ArrayList<>();
+
+    public Serie() {} // construtor padrão(contrutor vazio)
 
     public Serie(DadosSerie dadosSerie) {
         this.titulo = dadosSerie.titulo();
