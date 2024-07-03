@@ -12,23 +12,27 @@ import java.util.OptionalDouble;
 public class Serie {
 
     @Id // Indica que é a chave primaria do banco
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY, que é o auto-incremental. Então, se temos um valor inteiro, ele gerará a sequência;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // IDENTITY, que é o auto-incremental. Então, se temos um valor inteiro, ele gerará a sequência;
     private Long id;
-    @Column(name = "titulo", unique = true) // Usado para expecificar que o nome da coluna se não por padrão será o nome da coluna,  unique = true: está coluna nunca pode se repetir
+    @Column(name = "titulo", unique = true)
+    // Usado para expecificar que o nome da coluna se não por padrão será o nome da coluna,  unique = true: está coluna nunca pode se repetir
     private String titulo;
     private Integer totalTemporadas;
     private Double avaliacao;
-    @Enumerated(EnumType.STRING) // Indica que é um Enum para o Banco, EnumType.STRING: que grava a informação como uma string.
+    @Enumerated(EnumType.STRING)
+    // Indica que é um Enum para o Banco, EnumType.STRING: que grava a informação como uma string.
     private Categoria genero;
     private String atores;
     private String poster;
     private String sinopse;
 
-//    @Transient // Indica para não salvar no banco de dados
-    @OneToMany(mappedBy = "serie") // Indica que é Um para muitos na tabela, mappedBy: indicando o a referencia do outro mapeamento: ManyToAny na outra classe
-    List<Episodio> episodios = new ArrayList<>();
+    //    @Transient // Indica para não salvar no banco de dados
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER) // Indica que é Um para muitos na tabela, mappedBy: indicando o a referencia do outro mapeamento: ManyToAny na outra classe
+            List<Episodio> episodios = new ArrayList<>();
 
-    public Serie() {} // construtor padrão(contrutor vazio)
+    public Serie() {
+    } // construtor padrão(contrutor vazio)
 
     public Serie(DadosSerie dadosSerie) {
         this.titulo = dadosSerie.titulo();
@@ -45,6 +49,8 @@ public class Serie {
     }
 
     public void setEpisodios(List<Episodio> episodios) {
+        episodios.stream()
+                .forEach(e -> e.setSerie(this)); // Associação para a chave estrangeira
         this.episodios = episodios;
     }
 
@@ -116,11 +122,12 @@ public class Serie {
     public String toString() {
         return
                 "genero=" + genero +
-                ", titulo='" + titulo + '\'' +
-                ", totalTemporadas=" + totalTemporadas +
-                ", avaliacao=" + avaliacao +
-                ", atores='" + atores + '\'' +
-                ", poster='" + poster + '\'' +
-                ", sinopse='" + sinopse + '\'';
+                        ", titulo='" + titulo + '\'' +
+                        ", totalTemporadas=" + totalTemporadas +
+                        ", avaliacao=" + avaliacao +
+                        ", atores='" + atores + '\'' +
+                        ", poster='" + poster + '\'' +
+                        ", sinopse='" + sinopse + '\'' +
+                        ", episodios='" + episodios + '\'';
     }
 }

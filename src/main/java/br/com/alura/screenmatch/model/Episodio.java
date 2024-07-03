@@ -1,7 +1,6 @@
 package br.com.alura.screenmatch.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ManyToAny;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -12,7 +11,8 @@ import java.time.format.DateTimeParseException;
 public class Episodio {
 
     @Id // Indica que é a chave primaria do banco
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY, que é o auto-incremental. Então, se temos um valor inteiro, ele gerará a sequência;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // IDENTITY, que é o auto-incremental. Então, se temos um valor inteiro, ele gerará a sequência;
     private Long id;
     private Integer temporada;
     private String titulo;
@@ -21,6 +21,9 @@ public class Episodio {
     private LocalDate dataLancamento;
     @ManyToOne// Indica que é Muitos para um
     private Serie serie;
+
+    public Episodio() {
+    } // construtor padrão(contrutor vazio)
 
     public Episodio(Integer numeroEpisodio, DadosEpisodio dadosEpisodio) {
         this.temporada = numeroEpisodio;
